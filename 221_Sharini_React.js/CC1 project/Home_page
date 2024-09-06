@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, Box, Grid, Link } from '@mui/material';
+import LoginDialog from './LoginDialog';
+import SignUpDialog from './SignUpDialog';
+import { Facebook, LinkedIn, Instagram } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+const HomePage = () => {
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    setLoginOpen(true);
+  };
+
+  const handleSignUpClick = () => {
+    setSignUpOpen(true);
+  };
+
+  const handleLoginClose = () => {
+    setLoginOpen(false);
+  };
+
+  const handleSignUpClose = () => {
+    setSignUpOpen(false);
+  };
+
+  return (
+    <Box
+      sx={{
+        height: 'auto',
+        backgroundImage: 'url(https://wallpapercave.com/wp/wp5485213.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
+      <AppBar position="static">      
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Mediaspot
+          </Typography>
+          <Button color="inherit" onClick={handleLoginClick}>
+            Login
+          </Button>
+          <Button color="inherit" onClick={handleSignUpClick}>
+            Sign Up
+          </Button>
+          <Button color="inherit" onClick={() => navigate('/dashboard')}>
+            Dashboard
+          </Button>
+          <Button color="inherit" onClick={() => navigate('/settings')}>
+            Settings
+          </Button>
+          <Button color="inherit" onClick={() => navigate('/about')}>
+            About Us
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexGrow: 1,
+          color: 'white',
+          textAlign: 'center',
+          padding: 2,
+        }}
+      >
+        <Typography variant="h1" component="h1" sx={{ mb: 5 }}>
+          Welcome to Mediaspot
+        </Typography>
+        <Button variant="contained" color="primary" >
+          Get Started
+        </Button>
+      </Box>
+
+      <Box
+        sx={{
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          padding: '20px',
+          textAlign: 'left',
+        }}
+      >
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+              Services
+            </Typography>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>SEO</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Google Search Ads</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Social</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Reputation Management</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Content Writing</Link>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+              Contact Us
+            </Typography>
+            <Typography component="div" sx={{ mb: 1 }}>C. 12 Este, Panama</Typography>
+            <Typography component="div" sx={{ mb: 1 }}>+507 833 9655</Typography>
+            <Typography component="div" sx={{ mb: 1 }}>info@mediaspot.com</Typography>
+            <Box sx={{ mt: 2 }}>
+              <Typography component="div" sx={{ mb: 1 }}>Love us as we love you!</Typography>
+              <Box sx={{ display: 'flex', gap: '10px' }}>
+                <Facebook />
+                <LinkedIn />
+                <Instagram />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+              Company
+            </Typography>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Who We Are</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Careers</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Contact</Link>
+            <Link href="#" color="inherit" sx={{ display: 'block', mb: 1 }}>Blog</Link>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <LoginDialog open={loginOpen} onClose={handleLoginClose} />
+      <SignUpDialog open={signUpOpen} onClose={handleSignUpClose} />
+    </Box>
+  );
+};
+
+export default HomePage;

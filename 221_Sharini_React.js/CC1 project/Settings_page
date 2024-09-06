@@ -1,0 +1,99 @@
+import React from 'react';
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Switch, Divider, Avatar, Button } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SocialIcon from '@mui/icons-material/People';
+import LanguageIcon from '@mui/icons-material/Language';
+import DarkModeIcon from '@mui/icons-material/Brightness4';
+import AdUnitsIcon from '@mui/icons-material/AdUnits';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+
+const SettingsPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Box sx={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
+      <Button
+        startIcon={<ArrowBackIcon />}
+        onClick={() => navigate('/home')}
+        sx={{ mb: 3 }}
+      >
+        Back to Home
+      </Button>
+
+      <Button
+        onClick={() => navigate('/dashboard')}
+        sx={{ mb: 3 }}
+      >
+        Go to Dashboard
+      </Button>
+
+      <Button
+        onClick={() => navigate('/about')}
+        sx={{ mb: 3 }}
+      >
+        Go to About Us
+      </Button>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Avatar alt="User Name" src="/static/images/avatar/1.jpg" sx={{ width: 72, height: 72, mr: 2 }} />
+        <Box>
+          <Typography variant="h5">User Name</Typography>
+          <Typography variant="body1" color="textSecondary">user@digitalmarketing.com</Typography>
+        </Box>
+      </Box>
+      <Button variant="contained" color="primary" fullWidth sx={{ mb: 3 }}>
+        Edit Profile
+      </Button>
+
+      <Typography variant="h6" gutterBottom>
+        ACCOUNT SETTINGS
+      </Typography>
+      <List>
+        <ListItem button>
+          <ListItemIcon>
+            <NotificationsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Notifications" />
+          <Switch edge="end" defaultChecked aria-label="Notifications" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <SocialIcon />
+          </ListItemIcon>
+          <ListItemText primary="Connect Social Media" />
+        </ListItem>
+      </List>
+
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="h6" gutterBottom>
+        MARKETING PREFERENCES
+      </Typography>
+      <List>
+        <ListItem button>
+          <ListItemIcon>
+            <LanguageIcon />
+          </ListItemIcon>
+          <ListItemText primary="Language" />
+          <Typography variant="body2" color="textSecondary">English</Typography>
+        </ListItem>
+        <ListItem>
+          <ListItemIcon>
+            <DarkModeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dark Mode" />
+          <Switch edge="end" aria-label="Dark Mode" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <AdUnitsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Ad Preferences" />
+        </ListItem>
+      </List>
+    </Box>
+  );
+};
+
+export default SettingsPage;

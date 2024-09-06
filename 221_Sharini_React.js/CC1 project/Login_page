@@ -1,0 +1,108 @@
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogTitle, DialogContent, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import Box from '@mui/material/Box';
+
+const LoginDialog = ({ open, onClose }) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false,
+  });
+
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (open) {
+      setFormData({ email: '', password: '', rememberMe: false });
+      setErrors({ email: '', password: '' });
+    }
+  }, [open]);
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { email: '', password: '' };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = 'Valid email is required (e.g., username@gmail.com)';
+      valid = false;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!formData.password || !passwordRegex.test(formData.password)) {
+      newErrors.password = 'Password must be at least 6 characters with at least one uppercase and one lowercase letter';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Login successful');
+      navigate('/home');
+      onClose();
+    } else {
+      console.log('Login failed');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === 'rememberMe' ? checked : value,
+    });
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>Login</DialogTitle>
+      <DialogContent>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ padding: '20px', display: 'flex', flexDirection: 'column' }}
+        >
+          <TextField
+            fullWidth
+            label="Email"
+            name="email" 
+            value={formData.email}
+            onChange={handleChange}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            type="password"
+            label="Password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
+            margin="normal"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={formData.rememberMe} onChange={handleChange} name="rememberMe" color="primary" />}
+            label="Remember Me"
+            sx={{ mt: 1 }}
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+            Login
+          </Button>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default LoginDialog;

@@ -1,0 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './Digital_Marketing/HomePage';
+import DashboardPage from './Digital_Marketing/DashboardPage';
+import AboutPage from './Digital_Marketing/AboutPage';
+import SettingsPage from './Digital_Marketing/SettingsPage';
+
+function App() {
+  return (
+   <Router>
+      <Routes>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

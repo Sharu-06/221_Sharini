@@ -1,0 +1,140 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogTitle, DialogContent, TextField, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+
+const SignUpDialog = ({ open, onClose }) => {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [errors, setErrors] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (open) {
+      setFormData({ username: '', email: '', password: '', confirmPassword: '' });
+      setErrors({ username: '', email: '', password: '', confirmPassword: '' });
+    }
+  }, [open]);
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { username: '', email: '', password: '', confirmPassword: '' };
+
+    if (!formData.username) {
+      newErrors.username = 'Username is required';
+      valid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      newErrors.email = 'Valid email is required';
+      valid = false;
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!formData.password || !passwordRegex.test(formData.password)) {
+      newErrors.password = 'Password must be at least 6 characters with at least one uppercase and one lowercase letter';
+      valid = false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log('Sign Up successful');
+      navigate('/home');
+      onClose();
+    } else {
+      console.log('Sign Up failed');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>Sign Up</DialogTitle>
+      <DialogContent>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ padding: '20px', display: 'flex', flexDirection: 'column' }}
+        >
+          <TextField
+            fullWidth
+            label="Username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            error={Boolean(errors.username)}
+            helperText={errors.username}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            type="email"
+            label="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            type="password"
+            label="New Password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            type="password"
+            label="Confirm Password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={Boolean(errors.confirmPassword)}
+            helperText={errors.confirmPassword}
+            margin="normal"
+            sx={{ mt: 2 }}
+          />
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+            Sign Up
+          </Button>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default SignUpDialog;
